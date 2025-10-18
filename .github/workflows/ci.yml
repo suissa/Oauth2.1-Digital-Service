@@ -15,9 +15,9 @@ jobs:
         with:
           node-version: 18
           cache: 'npm'
-      - run: npm ci
-      - run: npm run lint
-      - run: npm run type-check
+      - run: cd backend && npm ci
+      - run: cd backend && npm run lint
+      - run: cd backend && npm run type-check
 
   test-e2e:
     needs: lint-and-typecheck
@@ -35,8 +35,8 @@ jobs:
         with:
           node-version: 18
           cache: 'npm'
-      - run: npm ci
-      - run: npm test
+      - run: cd backend && npm ci
+      - run: cd backend && npm test
         env:
           NODE_ENV: test
           MONGO_URI: mongodb://localhost:27017/oauth-webauthn-test-ci
@@ -55,9 +55,9 @@ jobs:
         with:
           node-version: 18
           cache: 'npm'
-      - run: npm ci
-      - run: npm run build
+      - run: cd backend && npm ci
+      - run: cd backend && npm run build
       - uses: actions/upload-artifact@v4
         with:
           name: dist
-          path: dist/
+          path: backend/dist/
