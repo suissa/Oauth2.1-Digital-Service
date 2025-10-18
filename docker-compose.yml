@@ -1,0 +1,18 @@
+version: '3.8'
+
+services:
+  mongo:
+    image: mongo:latest
+    container_name: webauthn-mongo
+    ports:
+      - "27111:27017"
+    volumes:
+      - mongodata:/data/db
+    networks:
+      - webauthn-net
+
+volumes:
+  mongodata:
+
+networks:
+  webauthn-net:
