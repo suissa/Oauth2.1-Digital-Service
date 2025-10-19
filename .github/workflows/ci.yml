@@ -9,19 +9,26 @@ on:
 jobs:
   lint-and-typecheck:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./backend
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: 18
           cache: 'npm'
-      - run: cd backend && npm ci
-      - run: cd backend && npm run lint
-      - run: cd backend && npm run type-check
+          cache-dependency-path: backend/package-lock.json
+      - run: npm ci
+      - run: npm run lint
+      - run: npm run type-check
 
   test-e2e:
     needs: lint-and-typecheck
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./backend
     services:
       mongo:
         image: mongo:latest
@@ -35,8 +42,9 @@ jobs:
         with:
           node-version: 18
           cache: 'npm'
-      - run: cd backend && npm ci
-      - run: cd backend && npm test
+          cache-dependency-path: backend/package-lock.json
+      - run: npm ci
+      - run: npm test
         env:
           NODE_ENV: test
           MONGO_URI: mongodb://localhost:27017/oauth-webauthn-test-ci
@@ -49,14 +57,18 @@ jobs:
   build:
     needs: test-e2e
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./backend
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: 18
           cache: 'npm'
-      - run: cd backend && npm ci
-      - run: cd backend && npm run build
+          cache-dependency-path: backend/package-lock.json
+      - run: npm ci
+      - run: npm run build
       - uses: actions/upload-artifact@v4
         with:
           name: dist
