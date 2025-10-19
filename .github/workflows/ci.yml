@@ -34,11 +34,11 @@ jobs:
         image: mongo:latest
         ports:
           - 27017:27017
-        health:
-          test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
-          interval: 10s
-          timeout: 5s
-          retries: 5
+      #  health:
+        #  test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+         # interval: 10s
+         # timeout: 5s
+        #  retries: 5
 
     steps:
       - uses: actions/checkout@v4
